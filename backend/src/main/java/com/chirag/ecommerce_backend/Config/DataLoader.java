@@ -31,7 +31,7 @@ public class DataLoader implements CommandLineRunner  {
             Product.builder()
                    .description("Wireless Bluetooth Headphones — comfortable, 20h battery")
                    .price(2499)
-                   .imageUrl("https://example.com/images/headphones.jpg")
+                   .imageUrl("https://share.google/images/VkTtec3BeIvxYpgJC")
                    .stock(50)
                    .build(),
 

@@ -126,38 +126,79 @@ const ProductList: React.FC<ProductListProps> = ({ reloadKey, onChange }) => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Products</h2>
+    <section>
+      <h2 style={{ marginBottom: "12px" }}>Products</h2>
 
-      {error && <div style={{ color: "red" }}>{error}</div>}
+      {error && <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
 
-      <ul>
+      <div
+        style={{
+          display: "grid",
+          gap: "16px",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+        }}
+      >
         {products.map((p) => (
-          <li key={p.id} style={{ marginBottom: "10px" }}>
+          <div
+            key={p.id}
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: "8px",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+              padding: "12px 12px 14px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              minHeight: "200px",
+            }}
+          >
+            {/* Image preview if imageUrl is present */}
+            {p.imageUrl && (
+              <div style={{ marginBottom: "8px" }}>
+                <img
+                  src={p.imageUrl}
+                  alt={p.description}
+                  style={{
+                    width: "100%",
+                    maxHeight: "140px",
+                    objectFit: "cover",
+                    borderRadius: "6px",
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Product text/info */}
+            <div style={{ marginBottom: "8px" }}>
+              <div style={{ fontWeight: 600, marginBottom: "4px" }}>
+                {p.description}
+              </div>
+              <div style={{ fontSize: "0.9rem", color: "#555" }}>
+                Price: ₹{p.price}
+              </div>
+              <div style={{ fontSize: "0.9rem", color: "#555" }}>
+                Stock: {p.stock ?? 0}
+              </div>
+            </div>
+
+            {/* Actions */}
             <div>
-              <strong>{p.description}</strong> — ₹{p.price} — stock:{" "}
-              {p.stock ?? 0}
-              {"  "}
+              <button onClick={() => startEdit(p)}>Edit</button>
               <button
-                style={{ marginLeft: "10px" }}
-                onClick={() => startEdit(p)}
-              >
-                Edit
-              </button>
-              <button
-                style={{ marginLeft: "5px" }}
+                style={{ marginLeft: "8px" }}
                 onClick={() => handleDelete(p.id)}
               >
                 Delete
               </button>
             </div>
 
+            {/* Inline edit form for this product */}
             {editing && editForm && editing.id === p.id && (
               <div
                 style={{
-                  marginTop: "8px",
-                  padding: "10px",
-                  border: "1px solid #ccc",
+                  marginTop: "10px",
+                  paddingTop: "8px",
+                  borderTop: "1px solid #eee",
                 }}
               >
                 <div style={{ marginBottom: "6px" }}>
@@ -168,7 +209,7 @@ const ProductList: React.FC<ProductListProps> = ({ reloadKey, onChange }) => {
                     value={editForm.description}
                     onChange={handleEditChange}
                     rows={2}
-                    style={{ width: "300px" }}
+                    style={{ width: "100%" }}
                   />
                 </div>
 
@@ -191,7 +232,7 @@ const ProductList: React.FC<ProductListProps> = ({ reloadKey, onChange }) => {
                     name="imageUrl"
                     value={editForm.imageUrl}
                     onChange={handleEditChange}
-                    style={{ width: "300px" }}
+                    style={{ width: "100%" }}
                   />
                 </div>
 
@@ -218,10 +259,10 @@ const ProductList: React.FC<ProductListProps> = ({ reloadKey, onChange }) => {
                 </button>
               </div>
             )}
-          </li>
+          </div>
         ))}
-      </ul>
-    </div>
+      </div>
+    </section>
   );
 };
 

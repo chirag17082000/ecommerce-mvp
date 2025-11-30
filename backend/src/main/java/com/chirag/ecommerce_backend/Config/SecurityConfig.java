@@ -17,7 +17,7 @@ public class SecurityConfig {
 
             // Authorize requests
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/**", "/h2-console/**").permitAll()  // allow all our APIs + H2 console
+                .requestMatchers("/api/**", "/uploads/**", "/h2-console/**").permitAll()  // allow all our APIs + H2 console
                 .anyRequest().permitAll()                                  // allow everything else too
             )
 

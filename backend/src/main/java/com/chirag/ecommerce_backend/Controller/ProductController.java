@@ -15,6 +15,8 @@ public class ProductController {
 
     private final ProductRepository repo;
 
+
+    //constructor injection
     public ProductController(ProductRepository repo){
         this.repo = repo;
     }
@@ -57,18 +59,15 @@ public class ProductController {
                 return ResponseEntity.ok(existing);
             })
             .orElseGet(() -> ResponseEntity.notFound().build());
-}
-@DeleteMapping("/{id}")
-public ResponseEntity<?> delete(@PathVariable Long id){
-    if(!repo.existsById(id)){
-        return ResponseEntity.notFound().build();
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+            if(!repo.existsById(id)){
+                return ResponseEntity.notFound().build();
+             }
 
-    repo.deleteById(id);
-    return ResponseEntity.noContent().build();
-}
-
-
-    
+        repo.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
