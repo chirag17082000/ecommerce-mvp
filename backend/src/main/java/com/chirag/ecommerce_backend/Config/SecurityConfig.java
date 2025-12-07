@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,10 +22,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                // ✅ Tell Spring Security to use our CorsConfig
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // ✅ Allow all OPTIONS (preflight) requests
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                         // Auth endpoints, uploads, H2 are public
                         .requestMatchers("/api/auth/**", "/uploads/**", "/h2-console/**").permitAll()
+                        //allow upload for testing - temporary
+                        .requestMatchers(HttpMethod.POST, "/api/products/upload").permitAll()
 
                         // Allow viewing products without login
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
